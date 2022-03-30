@@ -1,0 +1,19 @@
+name: Build SlashPineTech.Forestry.ServiceModules
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Build with dotnet
+        run: dotnet build
