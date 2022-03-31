@@ -1,18 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <AssemblyName>SlashPineTech.Forestry.ServiceModules</AssemblyName>
-        <Title>Forestry Service Modules Component</Title>
-        <Description>An object-oriented approach to ASP.NET Core services configuration.</Description>
-        <Authors>Steven Benitez</Authors>
-        <PackageTags>ASP.NET Core;Configuration;IConfiguration</PackageTags>
-        <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <OutputType>Library</OutputType>
-    </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>SlashPineTech.Forestry.ServiceModules</AssemblyName>
+    <Title>Forestry Service Modules Component</Title>
+    <Description>An object-oriented approach to ASP.NET Core services configuration.</Description>
+    <Authors>Steven Benitez</Authors>
+    <Company>Slash Pine Tech</Company>
+    <PackageTags>ASP.NET Core;Configuration;IConfiguration</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+  </ItemGroup>
 
 </Project>
