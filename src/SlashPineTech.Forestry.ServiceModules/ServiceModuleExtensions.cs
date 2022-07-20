@@ -11,10 +11,12 @@ namespace SlashPineTech.Forestry.ServiceModules;
 /// </summary>
 public static class ServiceModuleExtensions
 {
-    public static ServiceModulesBuilder AddModules(this IServiceCollection services,
+    public static ServiceModulesBuilder AddModules(
+        this IServiceCollection services,
         Assembly assembly,
         IWebHostEnvironment env,
-        IConfiguration configuration)
+        IConfiguration configuration
+    )
     {
         var factory = new ServiceModuleFactory(configuration);
         factory.DiscoverModules(assembly);
@@ -22,8 +24,7 @@ public static class ServiceModuleExtensions
         return new ServiceModulesBuilder(
             factory,
             services,
-            env,
-            configuration
+            new ServiceConfigurationContext(configuration, env)
         );
     }
 }
