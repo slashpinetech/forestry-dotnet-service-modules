@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,19 +7,17 @@ public class ServiceModulesBuilder
 {
     private readonly IServiceModuleFactory _factory;
     private readonly IServiceCollection _services;
-    private readonly IWebHostEnvironment _environment;
-    private readonly IConfiguration _configuration;
+    private readonly IServiceConfigurationContext _serviceConfigurationContext;
 
     public ServiceModulesBuilder(
         IServiceModuleFactory factory,
         IServiceCollection services,
-        IWebHostEnvironment environment,
-        IConfiguration configuration)
+        IServiceConfigurationContext serviceConfigurationContext
+    )
     {
         _factory = factory;
         _services = services;
-        _environment = environment;
-        _configuration = configuration;
+        _serviceConfigurationContext = serviceConfigurationContext;
     }
 
     /// <summary>
@@ -36,12 +33,12 @@ public class ServiceModulesBuilder
 
         if (!string.IsNullOrEmpty(configSectionName))
         {
-            _configuration.GetSection(configSectionName)?.Bind(module);
+            _serviceConfigurationContext.Configuration.GetSection(configSectionName)?.Bind(module);
 
             ModuleValidator.Validate(module, configSectionName);
         }
 
-        module.Configure(_services, _environment);
+        module.Configure(_services, _serviceConfigurationContext);
 
         return this;
     }

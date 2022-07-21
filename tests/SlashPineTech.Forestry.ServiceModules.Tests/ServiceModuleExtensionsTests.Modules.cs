@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace SlashPineTech.Forestry.ServiceModules.Tests;
@@ -8,7 +7,7 @@ public partial class ServiceModuleExtensionsTests
 {
     private class SimpleModule : IServiceModule
     {
-        public void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
             services.AddSingleton<IExampleService, ExampleService>();
         }
@@ -18,7 +17,7 @@ public partial class ServiceModuleExtensionsTests
     {
         public bool IsEnabled { get; set; }
 
-        public void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
         }
     }
@@ -26,14 +25,14 @@ public partial class ServiceModuleExtensionsTests
     [ServiceModuleInfo(QualifierPropertyName = "Choice", DefaultImpl = typeof(BluePillModule))]
     private abstract class MatrixModule : IServiceModule
     {
-        public abstract void Configure(IServiceCollection services, IWebHostEnvironment env);
+        public abstract void Configure(IServiceCollection services, IServiceConfigurationContext ctx);
     }
 
     // Life-changing truth
     [ServiceModuleName("RedPill")]
     private class RedPillModule : MatrixModule
     {
-        public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
             services.AddScoped<IChoice, RedPillChoice>();
         }
@@ -43,7 +42,7 @@ public partial class ServiceModuleExtensionsTests
     [ServiceModuleName("BluePill")]
     private class BluePillModule : MatrixModule
     {
-        public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
             services.AddScoped<IChoice, BluePillChoice>();
         }
@@ -52,13 +51,13 @@ public partial class ServiceModuleExtensionsTests
     [ServiceModuleInfo]
     private abstract class TypeModule : IServiceModule
     {
-        public abstract void Configure(IServiceCollection services, IWebHostEnvironment env);
+        public abstract void Configure(IServiceCollection services, IServiceConfigurationContext ctx);
     }
 
     [ServiceModuleName("A")]
     private class TypeAModule : TypeModule
     {
-        public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
             services.AddTransient<string>(_ => "A");
         }
@@ -67,7 +66,7 @@ public partial class ServiceModuleExtensionsTests
     // Name is derived, 'Module' suffix is removed
     private class TypeBModule : TypeModule
     {
-        public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
             services.AddSingleton(typeof(string), "B");
         }
@@ -76,7 +75,7 @@ public partial class ServiceModuleExtensionsTests
     // Name is derived, does not end in Module
     private class TypeC : TypeModule
     {
-        public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
             services.AddSingleton(typeof(string), "C");
         }

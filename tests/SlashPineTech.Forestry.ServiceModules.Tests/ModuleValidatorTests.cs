@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
@@ -41,7 +40,7 @@ public class ModuleValidatorTests
         [Required]
         public string ExampleProperty { get; set; }
 
-        public void Configure(IServiceCollection services, IWebHostEnvironment env)
+        public void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
         {
         }
     }

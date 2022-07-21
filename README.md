@@ -18,12 +18,12 @@ Getting started with Service Modules is easy. Create a class that implements
 ```c#
 public class BugsnagModule : IServiceModule
 {
-    public void Configure(IServiceCollection services, IWebHostEnvironment env)
+    public void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
     {
         services.AddBugsnag(configuration =>
         {
             configuration.ApiKey = "YourApiKeyGoesHere";
-            configuration.ReleaseStage = env.EnvironmentName;
+            configuration.ReleaseStage = ctx.Environment.EnvironmentName;
         });
     }
 }
@@ -68,14 +68,14 @@ public class BugsnagModule : IServiceModule
 {
     public string? ApiKey { get; set; }
 
-    public void Configure(IServiceCollection services, IWebHostEnvironment env)
+    public void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
     {
         if (!string.IsNullOrEmpty(ApiKey))
         {
             services.AddBugsnag(configuration =>
             {
                 configuration.ApiKey = ApiKey;
-                configuration.ReleaseStage = env.EnvironmentName;
+                configuration.ReleaseStage = ctx.Environment.EnvironmentName;
             });
         }
     }
@@ -109,7 +109,7 @@ public class DatabaseModule : IServiceModule
 
     public bool EnableSensitiveDataLogging { get; set; } = false;
 
-    public void Configure(IServiceCollection services, IWebHostEnvironment env)
+    public void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -175,7 +175,7 @@ public abstract class EmailModule : IServiceModule
     [EmailAddress]
     public string? FromAddress { get; set; }
 
-    public abstract void Configure(IServiceCollection services, IWebHostEnvironment env);
+    public abstract void Configure(IServiceCollection services, IServiceConfigurationContext ctx);
 }
 ```
 
@@ -188,7 +188,7 @@ public class SmtpEmailModule : EmailModule
 
     public int Port { get; set; } = 25;
 
-    public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+    public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
     {
         services.AddSingleton(_ => new SmtpSettings(
             new EmailAddress(FromAddress!, FromName),
@@ -207,7 +207,7 @@ public class SendGridEmailModule : EmailModule
     [Required]
     public string? ApiKey { get; set; }
 
-    public override void Configure(IServiceCollection services, IWebHostEnvironment env)
+    public override void Configure(IServiceCollection services, IServiceConfigurationContext ctx)
     {
         services.AddSingleton(_ => new SendGridSettings(
             new EmailAddress(FromAddress!, FromName),

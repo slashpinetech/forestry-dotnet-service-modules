@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace SlashPineTech.Forestry.ServiceModules;
@@ -11,5 +10,5 @@ public interface IServiceModule
     /// <summary>
     /// Configures the provided services for this module.
     /// </summary>
-    void Configure(IServiceCollection services, IWebHostEnvironment env);
+    void Configure(IServiceCollection services, IServiceConfigurationContext ctx);
 }
