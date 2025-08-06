@@ -6,12 +6,14 @@
     <Description>An object-oriented approach to ASP.NET Core services configuration.</Description>
     <Authors>Steven Benitez</Authors>
     <Company>Slash Pine Tech</Company>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>ASP.NET Core;Configuration;IConfiguration</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
-    <Version>2.1.0-rc.1</Version>
+    <Version>2.1.0</Version>
+    <DefineConstants>$(DefineConstants);JETBRAINS_ANNOTATIONS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +22,10 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
