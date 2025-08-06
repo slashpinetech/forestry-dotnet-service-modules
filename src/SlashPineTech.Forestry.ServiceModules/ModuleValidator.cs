@@ -23,7 +23,7 @@ public static class ModuleValidator
         {
             throw new ModuleConfigurationException(
                 configSectionName,
-                validationResults.Select(x => x.ErrorMessage)!
+                validationResults.Select(result => result.ErrorMessage)!
             );
         }
     }

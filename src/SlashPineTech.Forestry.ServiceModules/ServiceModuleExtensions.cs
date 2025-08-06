@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +20,26 @@ public static class ServiceModuleExtensions
         IConfiguration configuration
     )
     {
+        return services.AddModules(
+            Enumerable.Repeat(assembly, 1),
+            env,
+            configuration
+        );
+    }
+
+    public static ServiceModulesBuilder AddModules(
+        this IServiceCollection services,
+        IEnumerable<Assembly> assemblies,
+        IWebHostEnvironment env,
+        IConfiguration configuration
+    )
+    {
         var factory = new ServiceModuleFactory(configuration);
-        factory.DiscoverModules(assembly);
+
+        foreach (var assembly in assemblies)
+        {
+            factory.DiscoverModules(assembly);
+        }
 
         return new ServiceModulesBuilder(
             factory,

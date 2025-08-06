@@ -41,7 +41,7 @@ public sealed class ServiceModuleFactory : IServiceModuleFactory
         var assemblyTypes = assembly.GetTypes();
 
         var discoveredServiceModuleTypes = assemblyTypes
-            .Where(x => x.GetCustomAttributes(typeof(ServiceModuleInfoAttribute), false).Length > 0)
+            .Where(type => type.GetCustomAttributes(typeof(ServiceModuleInfoAttribute), false).Length > 0)
             .ToList();
 
         foreach (var moduleType in discoveredServiceModuleTypes)
@@ -112,12 +112,10 @@ public sealed class ServiceModuleFactory : IServiceModuleFactory
         var typeQualifier = _configuration.GetSection(configSectionName)[typeQualifierPropertyName]!;
         var availableImplementations = _registry[typeof(TModuleType)];
 
-        if (!availableImplementations.ContainsKey(typeQualifier))
+        if (!availableImplementations.TryGetValue(typeQualifier, out var implementationType))
         {
             throw new ServiceModuleException($"No implementation named '{typeQualifier}' found for module '{moduleType}'. Make sure that the implementation is attributed with [ServiceModuleName(\"{typeQualifier}\")].");
         }
-
-        var implementationType = availableImplementations[typeQualifier];
 
         return (IServiceModule?)Activator.CreateInstance(implementationType) ?? throw new ServiceModuleException($"Unable to instantiate an instance of '{implementationType}'.");
     }
